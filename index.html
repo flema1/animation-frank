@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Animation</title>
+   </head>
+   <style>
+      .bigContainer{
+      height:40px;
+      width:400px;
+      background: white;
+      margin: 0 auto;
+      display: flex;
+      }
+      @font-face {
+      font-family: PAC-FONT;
+      src: url(PAC-FONT.ttf);
+      }
+      .dir{
+      font-family: PAC-FONT;
+      margin: 0 5px 0 5px;
+      height:40px;
+      width:100px;
+      display: inline-block;
+      color: white;
+      background-color: yellow;
+      text-align: center;
+      font-size: 20px;
+      flex:1;
+      }
+      #myContainer{
+      width: 96%;
+      height: 425px;
+      position: relative;
+      background:white; 
+      display: inline-block;
+      border:yellow;
+      border-width: 10px;
+      border-style: solid;
+      margin: 0 20px 0 20px; 
+      }
+      #pac{
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      background-color: none;
+      right: 390px;
+      }
+      #fanta{
+      width: 100px;
+      height: 100px;
+      position: absolute;
+      background-color: none;
+      display: block; 
+      }
+      #logo{
+      padding: 10px 0 0 0;  
+      position: relative;
+      width: 100%;
+      height:300px;
+      background-color: none;
+      }
+      p{
+      width:800px; 
+      display: none;
+      }
+      .dir:hover {
+      background-color: #000;
+      }
+   </style>
+   <div id = "logo">
+      <img src="logo1.png" alt="no image" height="100%" width="100%">
+   </div>
+   <audio  id="pacAudio" autoplay>
+      <source src="pacAudio1.mp4" type="audio/wav">
+      Your browser does not support the audio element.
+   </audio>
+   <audio  id="pacWin" autoplay>
+      <source src="pacAudio1.mp4" type="audio/wav">
+      Your browser does not support the audio element.
+   </audio>
+   <body onload="move('fanta'); call()">
+      <p id="display">hello</p>
+      <p id="display2">hello</p>
+      <div id= "myContainer">
+         <div class="bigContainer">
+            <div id= "pac">
+               <img src="pac.png" alt="no image" height="100%" width="100%">
+            </div>
+            <div id= "fanta">
+               <img src="fanta.png" alt="no image" height="100%" width="100%">
+            </div>
+         </div>
+      </div>
+      <div  class="bigContainer">
+         <div class="dir" onmouseover="displace('left', 'pac'); reset2();" onmouseout="stop2();">left</div>
+         <div class="dir" onmouseover="displace('right', 'pac'); reset2();" onmouseout="stop2();">right</div>
+         <div class="dir" onmouseover="displace('up', 'pac');    reset2();" onmouseout="stop2();">up</div>
+         <div class="dir" onmouseover="displace('down', 'pac'); reset2();" onmouseout="stop2();">down</div>
+      </div>
+   </body>
+   <script>
+      function move() {
+          
+          var Id2=setInterval(reset, 2999);
+          var Id2=setInterval(autoDirection, 1000);
+          var Id2=setInterval(stop, 2900);
+          var Id2=setInterval(eat, 2900);
+      }
+      
+       var boolEat=null;
+      function call() {
+        //document.getElementById("pac").style.background="yellow";
+        setTimeout(setFalse(), 1);
+      }
+      function setFalse() {
+        boolEat="false";
+      }
+      
+      function autoDirection(){
+      
+      var x = Math.floor((Math.random() * 4) + 1);
+      name='fanta';
+      
+      
+      document.getElementById("display2").innerHTML = x;
+      
+      if (x==1){
+      
+      moveHorizontal("up", name);
+      
+      }
+      
+      else if (x==2){
+      
+       moveHorizontal( "down", name);
+      
+      }
+      
+      else if (x==3){
+        
+      moveHorizontal("left", name);
+      
+      }
+      else if (x==4){
+      moveHorizontal("right", name);
+      
+      }
+         
+      }
+      
+      function displace(x, y) {
+      
+      document.getElementById("display").innerHTML=y;
+        
+      moveHorizontal2(x, y);
+      
+      }
+      
+      
+      
+      var posHorizontal= 0, posVertical= 350, bool=null; 
+      
+       
+      function moveHorizontal(x,y){
+      
+      var elem = document.getElementById('fanta');
+      
+          var Id=setInterval(frame, 5);
+      
+          function frame(){
+      //alert(y +"y");
+              if( bool==true){
+                clearInterval(Id);
+              }
+      
+              else if ( x=="left" &&  posHorizontal>1){
+                posHorizontal--; 
+                elem.style.left= posHorizontal+'px';
+                elem.style.transform= 'rotate(100deg)';
+              }
+      
+              else if ( x=="right" &&  posHorizontal<1250){
+                posHorizontal++; 
+                elem.style.left= posHorizontal+'px';
+                elem.style.transform= 'rotate(45deg)';
+      
+              }
+      
+              else if ( x=="up" &&  posVertical>1){
+                posVertical--; 
+                elem.style.top= posVertical+'px';
+                elem.style.transform= 'rotate(-90deg)';
+      
+              }
+      
+              else if ( x=="down" &&  posVertical<300){
+                posVertical++; 
+                elem.style.top= posVertical+'px';
+                elem.style.transform= 'rotate(90deg)';
+              }
+      
+          }
+        }
+      
+      
+      
+      var posHorizontal2= 0, posVertical2= 0, bool2=null;
+      function moveHorizontal2(x,y){
+      
+      var elem = document.getElementById('pac');
+      
+          var Id=setInterval(frame, 5);
+      
+          function frame(){
+      //alert(y +"y");
+              if( bool2==true){
+                clearInterval(Id);
+              }
+      
+              else if ( x=="left" &&  posHorizontal2>1){
+                posHorizontal2--; 
+                elem.style.left= posHorizontal2+'px';
+                elem.style.transform= 'rotate(100deg)';
+              }
+      
+              else if ( x=="right" &&  posHorizontal2<1250){
+                posHorizontal2++; 
+                elem.style.left= posHorizontal2+'px';
+                elem.style.transform= 'rotate(45deg)';
+      
+              }
+      
+              else if ( x=="up" &&  posVertical2>1){
+                posVertical2--; 
+                elem.style.top= posVertical2+'px';
+                elem.style.transform= 'rotate(-90deg)';
+      
+              }
+      
+              else if ( x=="down" &&  posVertical2<300){
+                posVertical2++; 
+                elem.style.top= posVertical2+'px';
+                elem.style.transform= 'rotate(90deg)';
+              }
+      
+          }
+        }
+      
+      function stop2(){
+      bool2=true; 
+      }
+      
+      function reset2(){   
+        bool2=false; 
+      }
+      
+      function stop(){
+      bool=true; 
+      }
+      
+      function reset(){   
+        bool=false; 
+      document.getElementById("fanta").style.display="block";
+      
+      }
+      
+      var pacPx=200;
+      function eat(){
+      
+        if (  posHorizontal2 ==posHorizontal && posVertical==posVertical2 ){
+            //alert("eat");
+             alert("WIN!!!");
+            //document.getElementById("fanta").style.background="blue";
+            document.getElementById("fanta").style.display="none";
+           
+      pacPx=pacPx+20; 
+      document.getElementById("pac").style.width=pacPx+"px";
+       document.getElementById("pac").style.height=pacPx+"px";
+      }}
+   </script>
+</html>
